@@ -1,5 +1,5 @@
 const database = require('../models')
-const { renderImage } = require('../utils/upload')
+const { renderProducts } = require('../utils/upload')
 
 module.exports = {
   create: async (req, res) => {
@@ -12,15 +12,19 @@ module.exports = {
 
     const priceReplace = price.replace(',', '.')
     await database.Products.create({ name, price: parseFloat(priceReplace).toFixed(2), image_url: image[0] }).then(product => {
-      const response = renderImage(product)
+      const response = renderProducts(product)
       return res.status(201).json(response)
     }).catch(err => res.status(400).json({ message: err.message }))
   },
 
   findAll: async (req, res) => {
-    await database.Products.findAll().then(product => {
+    await database.Products.findAll({
+      order: [
+        ['id', 'DESC'],
+      ],
+    }).then(product => {
       const response = product.map(product => {
-        return renderImage(product)
+        return renderProducts(product)
       })
       return res.status(200).json(response)
     }).catch(err => res.status(400).json({ message: err.message }))
@@ -31,7 +35,7 @@ module.exports = {
     await database.Products.findOne({
       where: { id }
     }).then(product => {
-      const response = renderImage(product)
+      const response = renderProducts(product)
       return res.status(200).json(response)
     }).catch(err => res.status(400).json({ message: err.message }))
   },
@@ -61,7 +65,7 @@ module.exports = {
         const product = await database.Products.findOne({
           where: { id }
         })
-        const response = renderImage(product)
+        const response = renderProducts(product)
         return res.status(200).json(response)
       }).catch(err => res.status(400).json({ message: err.message }))
   }

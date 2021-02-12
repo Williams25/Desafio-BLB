@@ -6,17 +6,17 @@ module.exports = {
     destination: path.join(__dirname, '..', '..', 'uploads'),
     filename: (request, file, callback) => {
 
-      const filename = `${Date.now()}--${file.originalname.replace(' ','-')}`
+      const filename = `${Date.now()}--${file.originalname.replace(' ', '-')}`
 
       callback(null, filename)
     }
   }),
 
-  renderImage(data) {
+  renderProducts(data) {
     return {
       id: data.id,
       name: data.name,
-      price: Number(data.price).toFixed(2),
+      price: Number(data.price).toFixed(2).replace('.', ','),
       image_url: `http://${process.env.IP}:${process.env.PORT}/uploads/${data.image_url}`
     }
   }

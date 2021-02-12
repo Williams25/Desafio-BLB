@@ -69,6 +69,10 @@ const ModalAdicionar = ({ atualizaTela }) => {
 
     Products.create(data).then(res => {
       res.status === 201 && atualizaTela()
+      setName('')
+      setPrice('')
+      setImages([])
+      setPreviewImages([])
       handleClose()
     }).catch(err => err.message)
   }

@@ -97,7 +97,7 @@ const Card = ({ products, formSwitch, atualizaTela }) => {
                     />
                   }
                 </Cards.Content>
-                <Image src={product.image_url} fluid />
+                <Image src={product.image_url} width={256} height={260} />
                 <Cards.Name>{product.name}</Cards.Name>
                 <Cards.Price>R$ {product.price}</Cards.Price>
                 <Cards.Button>ADD R$ {product.price}</Cards.Button>

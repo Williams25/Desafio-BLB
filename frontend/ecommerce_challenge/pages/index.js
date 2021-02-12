@@ -18,7 +18,6 @@ const Home = props => {
   const loadProducts = () => {
     Products.findAll().then(res => {
       setProducts(res.data)
-      console.log("load")
     }).catch(err => { console.log(err.message) })
   }
 
@@ -28,7 +27,7 @@ const Home = props => {
 
   const variants = {
     visible: { opacity: 1, x: 0 },
-    hidden: { opacity: 0, x: -300 },
+    hidden: { opacity: 0, x: -500 },
   }
 
   return (

@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+const IP = `192.168.1.11`
+
 export const http = axios.create({
-    baseURL: 'http://192.168.1.11:5000/'
+    baseURL: `http://${IP}:5000/`
 })
