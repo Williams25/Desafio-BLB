@@ -14,6 +14,6 @@ export default {
     return http.put(`products`, body)
   },
   delete: id => {
-    http.delete(`products/${id}`)
+    return http.delete(`products/${id}`)
   }
 }

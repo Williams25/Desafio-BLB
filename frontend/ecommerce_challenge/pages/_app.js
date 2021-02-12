@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
     display: flex;
     flex-direction: column;
     font-family: 'Lato', sans-serif;
-    margin-top: 25px;
+    /* margin-top: 25px; */
   }
   html, body {
     min-height: 100vh;

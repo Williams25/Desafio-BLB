@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
-import styled from 'styled-components'
 import Products from '../src/services/products'
-import { Container, Row, Col, Image } from 'react-bootstrap'
+import { Container, Image } from 'react-bootstrap'
 import Logo from '../public/assets/images/Logo.svg'
 import Switch from "react-switch"
 import ContainerHome from '../src/components/Container'
+import Card from '../src/components/Cards'
+import Footer from '../src/components/Footer'
+import ModalAdicionar from '../src/components/ModalAdicionar'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { motion } from 'framer-motion'
 
 const Home = props => {
   const [products, setProducts] = useState([])
@@ -15,18 +18,30 @@ const Home = props => {
   const loadProducts = () => {
     Products.findAll().then(res => {
       setProducts(res.data)
-    }).catch(err => { err.message })
+      console.log("load")
+    }).catch(err => { console.log(err.message) })
   }
 
   useEffect(() => {
     loadProducts()
   }, [])
 
+  const variants = {
+    visible: { opacity: 1, x: 0 },
+    hidden: { opacity: 0, x: -300 },
+  }
+
   return (
-    <div>
-      <ContainerHome>
+    <>
+      <ContainerHome
+        as={motion.section}
+        initial="hidden"
+        animate="visible"
+        transition={{ duration: 0.6 }}
+        variants={variants}
+      >
         <ContainerHome.Logo>
-          <Image src={Logo} width={268} height={68} fluid />
+          <Image src={Logo} width={256} height={256} />
         </ContainerHome.Logo>
 
         <ContainerHome.Switch>
@@ -38,20 +53,46 @@ const Home = props => {
             width={46}
             onChange={() => setFormSwitch(!formSwitch)}
             checked={formSwitch} />
-        <ContainerHome.Span>
-          Modo Edição
-        </ContainerHome.Span>
+          <ContainerHome.Span>
+            Modo Edição
+          </ContainerHome.Span>
         </ContainerHome.Switch>
       </ContainerHome>
-{/* 
-      {
-        products.map(product => {
-          return (
-            <p>{product.name}</p>
+
+      <Container className="container mt-2 mb-5"
+        as={motion.section}
+        initial="hidden"
+        animate="visible"
+        transition={{ duration: 0.8 }}
+        variants={variants}
+      >
+        <Card
+          products={products}
+          formSwitch={formSwitch}
+          atualizaTela={() => loadProducts()}
+        />
+
+        {
+          formSwitch && (
+            <Footer>
+              Modo de edição ativo
+              <Footer.Content>
+                <Footer.Button
+                  onClick={() => setFormSwitch(!formSwitch)}
+                  isColor={true}
+                >
+                  Fechar
+                </Footer.Button>
+
+                <ModalAdicionar
+                  atualizaTela={() => loadProducts()}
+                />
+              </Footer.Content>
+            </Footer>
           )
-        })
-      } */}
-    </div>
+        }
+      </Container>
+    </>
   )
 }
 
